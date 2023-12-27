@@ -3,15 +3,28 @@ class Api::V1::PostsController < ApplicationController
 
   # http://127.0.0.1:3000/api/v1/posts/
   def index
-    @posts = Post.all.order(created_at: :desc)
+    @posts = Post.order(created_at: :desc)
 
-    render json: @posts
+    posts_with_images = @posts.map do |post|
+      if post.image.attached?
+        post.as_json.merge(image_url: url_for(post.image))
+      else
+        post.as_json.merge(image_url: nil)
+      end
+    end
+
+    render json: posts_with_images
   end
 
   # http://127.0.0.1:3000/api/v1/posts/1
   def show
     # sleep 3
-    render json: @post
+    if @post.image.attached?
+      render json: @post.as_json.merge(image_url: url_for(@post.image))
+    else
+      render json: @post.as_json.merge(image_url: nil)
+    end
+
   end
 
   # POST /posts
