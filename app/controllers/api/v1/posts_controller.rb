@@ -1,14 +1,14 @@
 class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: %i[ show update destroy ]
 
-  # GET /posts
+  # http://127.0.0.1:3000/api/v1/posts/
   def index
     @posts = Post.all.order(created_at: :desc)
 
     render json: @posts
   end
 
-  # GET /posts/1
+  # http://127.0.0.1:3000/api/v1/posts/1
   def show
     # sleep 3
     render json: @post
@@ -47,6 +47,6 @@ class Api::V1::PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :body)
+      params.require(:post).permit(:title, :body, :image)
     end
 end
