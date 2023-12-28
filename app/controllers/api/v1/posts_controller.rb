@@ -3,7 +3,7 @@ class Api::V1::PostsController < ApplicationController
 
   # http://127.0.0.1:3000/api/v1/posts/
   def index
-    posts_per_page = 2
+    posts_per_page = 4
     @posts = Post.order(created_at: :desc)
     posts_with_images = paginate_posts(@posts, posts_per_page)
     total_posts_count = Post.count

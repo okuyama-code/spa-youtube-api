@@ -4,7 +4,7 @@ class Api::V1::SearchController < ApplicationController
 
 
   def posts
-    posts_per_page = 2
+    posts_per_page = 4
     # If you're using a different DB, you might need to use ILIKE instead of LIKE
     @posts = Post.where('title LIKE ? OR body LIKE ?', "%#{params[:q]}%", "%#{params[:q]}%").order(created_at: :desc)
     posts_with_images = paginate_posts(@posts, posts_per_page)
