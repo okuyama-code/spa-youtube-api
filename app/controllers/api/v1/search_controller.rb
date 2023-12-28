@@ -1,24 +1,20 @@
 class Api::V1::SearchController < ApplicationController
   # http://127.0.0.1:3000/api/v1/search/posts
   # http://127.0.0.1:3000/api/v1/search/posts?q=a
+
+
   def posts
+    posts_per_page = 2
     # If you're using a different DB, you might need to use ILIKE instead of LIKE
-    # もし別のDBを使っているなら、LIKEの代わりにILIKEを使う必要があるかもしれない。
+    @posts = Post.where('title LIKE ? OR body LIKE ?', "%#{params[:q]}%", "%#{params[:q]}%").order(created_at: :desc)
+    posts_with_images = paginate_posts(@posts, posts_per_page)
+    total_posts_count = @posts.count
 
-    # query = "hello world"
-    # post.title = "2hello world4"
-
-    @posts = Post.where('title LIKE ? OR body LIKE ?', "#{params[:q]}%", "#{params[:q]}%").order(created_at: :desc)
-
-    posts_with_images = @posts.map do |post|
-      if post.image.attached?
-        post.as_json.merge(image_url: url_for(post.image))
-      else
-        post.as_json.merge(image_url: nil)
-      end
-    end
-
-    render json: posts_with_images
+    render json: {
+      posts: posts_with_images,
+      total_count: total_posts_count,
+      per_page: posts_per_page
+    }
   end
 end
 
