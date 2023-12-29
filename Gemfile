@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.2.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.0"
+gem "rails", "~> 7.1.0.rc1"
 
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"
@@ -49,3 +49,5 @@ end
 
 
 gem "rails-controller-testing", "~> 1.0"
+
+gem "kaminari", "~> 1.2"
